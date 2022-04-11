@@ -1,6 +1,6 @@
-class Ship extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, texture) {
-        super(scene, x, y, texture);
+class Spaceship extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y, texture, frame, pointValue) {
+        super(scene, x, y, texture, frame);
         // Add ship to scene
         scene.add.existing(this);
 
@@ -8,7 +8,7 @@ class Ship extends Phaser.GameObjects.Sprite {
         this.points = pointValue;
 
         // Set ship speed
-        this.moveSpeed = 3;
+        this.moveSpeed = game.settings.spaceshipSpeed;
     }
     update() {
         // Move ships to the left
@@ -16,7 +16,12 @@ class Ship extends Phaser.GameObjects.Sprite {
 
         // If ship is off screen, reset it
         if (this.x <=0 - this.width) {
-            this.x = game.config.width;
+            //this.x = game.config.width;
+            this.reset();
         }
+    }
+
+    reset() {
+        this.x = game.config.width;
     }
 }
