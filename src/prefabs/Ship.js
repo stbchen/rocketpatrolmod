@@ -15,8 +15,7 @@ class Spaceship extends Phaser.GameObjects.Sprite {
         this.x -= this.moveSpeed;
 
         // If ship is off screen, reset it
-        if (this.x <=0 - this.width) {
-            //this.x = game.config.width;
+        if (this.x <= 0 - this.width) {
             this.reset();
         }
     }
