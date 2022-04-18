@@ -7,17 +7,20 @@ class Play extends Phaser.Scene {
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('starfield', './assets/starfield.png');
+        this.load.image('starfield2', './assets/starfield2.png');
+        this.load.image('starfield3', './assets/starfield2.png');
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.spritesheet('explosion2', './assets/explosion2.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.spritesheet('explosion3', './assets/explosion3.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.spritesheet('explosion4', './assets/explosion4.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 4});
-
     }
 
     create() {
         // Background starfield
         this.starfield = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'starfield').setOrigin(0, 0);
-        
+        this.starfield2 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'starfield2').setOrigin(0, 0);
+        this.starfield3 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'starfield2').setOrigin(0, 0);
+
         // Green rectangle
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
         
@@ -89,7 +92,9 @@ class Play extends Phaser.Scene {
     
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, "p1: " + this.p1Score, scoreConfig);
         this.scoreRight = this.add.text(borderUISize*15 + borderPadding, borderUISize + borderPadding*2, "p2: " + this.p2Score, scoreConfig);
-        this.disTime = this.add.text(borderUISize*7.5 + borderPadding, borderUISize + borderPadding*2, "Time; " + 0, scoreConfig);
+        this.counter = 0;
+        this.timer = 60;
+        this.disTime = this.add.text(borderUISize*7.75 + borderPadding, borderUISize + borderPadding*2, "Time: " + this.timer, scoreConfig);
 
         // Initialize game state
         this.gameOver = false;
@@ -104,8 +109,13 @@ class Play extends Phaser.Scene {
     }
 
     update() {
-
-        scene.time.now
+        this.counter += 1;
+        if (this.counter % 60 == 0 && !this.gameOver) {
+            this.timer -= 1;
+            this.disTime.setText("Time: " + this.timer);
+        }
+        //timer = this.time.elapsed;
+        //this.disTime.text = "Time: " + this.timer;
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
         }
@@ -115,7 +125,18 @@ class Play extends Phaser.Scene {
         }
         // Move background
         this.starfield.tilePositionX -= 4;
-        
+        if (Phaser.Input.Keyboard.DownDuration(keyRIGHT, Infinity)) {
+            this.starfield2.tilePositionX += 5.5;
+        }
+        if (Phaser.Input.Keyboard.DownDuration(keyLEFT, Infinity)) {
+            this.starfield2.tilePositionX -= 5.5;
+        }
+        if (Phaser.Input.Keyboard.DownDuration(keyD, Infinity)) {
+            this.starfield3.tilePositionX += 5.5;
+        }
+        if (Phaser.Input.Keyboard.DownDuration(keyA, Infinity)) {
+            this.starfield3.tilePositionX -= 5.5;
+        }
         // Update ships/Rocket
         if (!this.gameOver) {
             this.shipA.update();
