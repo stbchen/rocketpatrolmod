@@ -10,7 +10,7 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.spritesheet('explosion2', './assets/explosion2.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.spritesheet('explosion3', './assets/explosion3.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
-        this.load.spritesheet('explosion4', './assets/explosion4.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('explosion4', './assets/explosion4.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 4});
 
     }
 
@@ -58,7 +58,7 @@ class Play extends Phaser.Scene {
         // Exploding animation 2
         this.anims.create({
             key: 'explode4',
-            frames: this.anims.generateFrameNumbers('explosion4', { start: 0, end: 9, first: 0}),
+            frames: this.anims.generateFrameNumbers('explosion4', { start: 0, end: 4, first: 0}),
             frameRate: 30
         });
         // Controls
@@ -85,8 +85,11 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 100
         }
+
+    
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, "p1: " + this.p1Score, scoreConfig);
         this.scoreRight = this.add.text(borderUISize*15 + borderPadding, borderUISize + borderPadding*2, "p2: " + this.p2Score, scoreConfig);
+        this.disTime = this.add.text(borderUISize*7.5 + borderPadding, borderUISize + borderPadding*2, "Time; " + 0, scoreConfig);
 
         // Initialize game state
         this.gameOver = false;
@@ -101,6 +104,8 @@ class Play extends Phaser.Scene {
     }
 
     update() {
+
+        scene.time.now
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
         }

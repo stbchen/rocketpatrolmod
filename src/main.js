@@ -3,7 +3,7 @@
 // Implement parallax scrolling (10)
 // >> Create and implement a new weapon (w/ new behavior and graphics) (20)
 // >> Create 4 new explosion SFX and randomize which one plays on impact (10)
-// Implement a simultaneous two-player mode (30) 
+// >> Implement a simultaneous two-player mode (30) 
 // Display the time remaining (in seconds) on the screen (10)
 // Replace the UI borders with new artwork (10)
 
