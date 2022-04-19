@@ -6,6 +6,7 @@ class Play extends Phaser.Scene {
     preload() {
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
+        this.load.image('spaceship2', './assets/spaceship2.png');
         this.load.image('starfield', './assets/starfield.png');
         this.load.image('starfield2', './assets/starfield2.png');
         this.load.image('starfield3', './assets/starfield2.png');
@@ -17,7 +18,7 @@ class Play extends Phaser.Scene {
 
     create() {
         // Background starfield
-        this.starfield = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'starfield').setOrigin(0, 0);
+        //this.starfield = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'starfield').setOrigin(0, 0);
         this.starfield2 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'starfield2').setOrigin(0, 0);
         this.starfield3 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'starfield2').setOrigin(0, 0);
 
@@ -36,6 +37,8 @@ class Play extends Phaser.Scene {
         this.shipA = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0, 0);
         this.shipB = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0,0);
         this.shipC = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0,0);
+        this.shipD = new Spaceship(this, game.config.width, borderUISize*4 + borderPadding*5, 'spaceship2', 0, 50).setOrigin(0,0);
+        this.shipD.moveSpeed = game.settings.spaceshipSpeed + 2;
 
         // Exploding animation
         this.anims.create({
@@ -81,20 +84,17 @@ class Play extends Phaser.Scene {
             fontSize: '20px',
             backgroundColor: '#F3B141',
             color: '#843605',
-            align: 'right',
+            align: 'left',
             padding: {
                 top: 5,
                 bottom: 5,
             },
             fixedWidth: 100
         }
-
-    
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, "p1: " + this.p1Score, scoreConfig);
         this.scoreRight = this.add.text(borderUISize*15 + borderPadding, borderUISize + borderPadding*2, "p2: " + this.p2Score, scoreConfig);
-        this.counter = 0;
-        this.timer = 60;
-        this.disTime = this.add.text(borderUISize*7.75 + borderPadding, borderUISize + borderPadding*2, "Time: " + this.timer, scoreConfig);
+        //this.counter = 0;
+        this.disTime = this.add.text(borderUISize*7.75 + borderPadding, borderUISize + borderPadding*2, "Time: ", scoreConfig);
 
         // Initialize game state
         this.gameOver = false;
@@ -106,14 +106,24 @@ class Play extends Phaser.Scene {
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← to Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
+
     }
 
     update() {
-        this.counter += 1;
-        if (this.counter % 60 == 0 && !this.gameOver) {
-            this.timer -= 1;
-            this.disTime.setText("Time: " + this.timer);
+        // this.counter += 1;
+        // if (this.counter % 60 == 0 && !this.gameOver) {
+        //     this.timer -= 1;
+        //     this.disTime.setText("Time: " + this.timer);
+        // }
+        //this.t = this.timer.getElapsedSeconds();
+        this.timer = Math.round(this.time.now * 0.001);
+        if (game.settings.gameTimer == 45000) {
+            this.disTime.setText("Time: " + 45 - this.timer);
         }
+        if (game.settings.gameTimer == 60000) {
+            this.disTime.setText("Time: " + 60 - this.timer);
+        }
+        this.disTime.setText("Time:" + this.timer);
         //timer = this.time.elapsed;
         //this.disTime.text = "Time: " + this.timer;
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
@@ -124,9 +134,9 @@ class Play extends Phaser.Scene {
             this.scene.start("menuScene");
         }
         // Move background
-        this.starfield.tilePositionX -= 4;
-        this.starfield2.tilePositionX -= 4;
-        this.starfield3.tilePositionX -= 4;
+        //this.starfield.tilePositionX -= 4;
+        this.starfield2.tilePositionX -= 1;
+        this.starfield3.tilePositionX -= 1;
         if (Phaser.Input.Keyboard.DownDuration(keyRIGHT, Infinity)) {
             this.starfield2.tilePositionX += 9.5;
         }
@@ -144,11 +154,16 @@ class Play extends Phaser.Scene {
             this.shipA.update();
             this.shipB.update();
             this.shipC.update();
+            this.shipD.update();
             this.p1Rocket.update();
             this.p2Rocket.update();
         }
 
         // check collisions for p1
+        if (this.checkCollision(this.p1Rocket, this.shipD)) {
+            this.p1Rocket.reset();
+            this.shipExplode1(this.shipD);
+        }
         if(this.checkCollision(this.p1Rocket, this.shipC)) {
             this.p1Rocket.reset();
             this.shipExplode1(this.shipC);
@@ -163,6 +178,10 @@ class Play extends Phaser.Scene {
         }
         
         // check collisions
+        if (this.checkCollision(this.p2Rocket, this.shipD)) {
+            this.p1Rocket.reset();
+            this.shipExplode1(this.shipD);
+        }
         if(this.checkCollision(this.p2Rocket, this.shipC)) {
             this.p2Rocket.reset();
             this.shipExplode2(this.shipC);
@@ -286,4 +305,5 @@ class Play extends Phaser.Scene {
         
         this.sound.play('sfx_explosion');
       }
+      
 }
