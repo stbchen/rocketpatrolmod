@@ -125,14 +125,16 @@ class Play extends Phaser.Scene {
         }
         // Move background
         this.starfield.tilePositionX -= 4;
+        this.starfield2.tilePositionX -= 4;
+        this.starfield3.tilePositionX -= 4;
         if (Phaser.Input.Keyboard.DownDuration(keyRIGHT, Infinity)) {
-            this.starfield2.tilePositionX += 5.5;
+            this.starfield2.tilePositionX += 9.5;
         }
         if (Phaser.Input.Keyboard.DownDuration(keyLEFT, Infinity)) {
             this.starfield2.tilePositionX -= 5.5;
         }
         if (Phaser.Input.Keyboard.DownDuration(keyD, Infinity)) {
-            this.starfield3.tilePositionX += 5.5;
+            this.starfield3.tilePositionX += 9.5;
         }
         if (Phaser.Input.Keyboard.DownDuration(keyA, Infinity)) {
             this.starfield3.tilePositionX -= 5.5;
