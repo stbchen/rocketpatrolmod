@@ -1,4 +1,6 @@
 // Rocket Patrol Modification
+// Stanley Chen stbchen
+// April 14 2022, around 12 hours to complete
 // >> Create a new title screen (e.g., new artwork, typography, layout) (10)
 // >> Implement parallax scrolling (10)
 // >> Create and implement a new weapon (w/ new behavior and graphics) (20)

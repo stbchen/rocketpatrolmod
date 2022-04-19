@@ -7,9 +7,9 @@ class Play extends Phaser.Scene {
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('spaceship2', './assets/spaceship2.png');
-        this.load.image('starfield', './assets/starfield.png');
+        //this.load.image('starfield', './assets/starfield.png');
         this.load.image('starfield2', './assets/starfield2.png');
-        this.load.image('starfield3', './assets/starfield2.png');
+        this.load.image('starfield3', './assets/starfield.png');
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.spritesheet('explosion2', './assets/explosion2.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.spritesheet('explosion3', './assets/explosion3.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
@@ -19,7 +19,7 @@ class Play extends Phaser.Scene {
     create() {
         // Background starfield
         //this.starfield = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'starfield').setOrigin(0, 0);
-        this.starfield2 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'starfield2').setOrigin(0, 0);
+        this.starfield2 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'starfield3').setOrigin(0, 0);
         this.starfield3 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'starfield2').setOrigin(0, 0);
 
         // Green rectangle
@@ -135,19 +135,25 @@ class Play extends Phaser.Scene {
         }
         // Move background
         //this.starfield.tilePositionX -= 4;
-        this.starfield2.tilePositionX -= 1;
-        this.starfield3.tilePositionX -= 1;
+        this.starfield2.tilePositionX -= 2;
+        this.starfield3.tilePositionX -= 3;
         if (Phaser.Input.Keyboard.DownDuration(keyRIGHT, Infinity)) {
-            this.starfield2.tilePositionX += 9.5;
+            this.starfield2.tilePositionX += 7.6;
+            this.starfield3.tilePositionX += 7.5;
+
         }
         if (Phaser.Input.Keyboard.DownDuration(keyLEFT, Infinity)) {
             this.starfield2.tilePositionX -= 5.5;
+            this.starfield3.tilePositionX -= 5.6;
+
         }
         if (Phaser.Input.Keyboard.DownDuration(keyD, Infinity)) {
-            this.starfield3.tilePositionX += 9.5;
+            this.starfield2.tilePositionX += 7.6;
+            this.starfield3.tilePositionX += 7.5;
         }
         if (Phaser.Input.Keyboard.DownDuration(keyA, Infinity)) {
-            this.starfield3.tilePositionX -= 5.5;
+            this.starfield2.tilePositionX -= 5.5;
+            this.starfield3.tilePositionX -= 5.6;
         }
         // Update ships/Rocket
         if (!this.gameOver) {
