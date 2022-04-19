@@ -7,6 +7,7 @@
 // >> Implement a simultaneous two-player mode (30) 
 // >> Display the time remaining (in seconds) on the screen (10)
 // >> Create a new spaceship type (w/ new artwork) that's smaller, moves faster, and is worth more points (20)
+// Referred to https://rexrainbow.github.io/phaser3-rex-notes/ for help with Phaser 3 syntax
 
 let config = {
     type: Phaser.CANVAS,
